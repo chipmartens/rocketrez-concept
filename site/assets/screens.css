@@ -1,8 +1,8 @@
 /* screens lane: product-screen recreations (ui.py). Loads after styles.css. Field colours belong to styles.css. */
 
 /* X1: the phone stage modifier no longer collides with the hero .phone frame */
-.stage.stage-phone .field{padding:40px 24px 0}
-.stage.stage-phone .win{width:100%;max-width:400px;margin:0 auto;border-radius:8px 8px 0 0}
+.stage.stage-phone .field{padding:var(--s-7) var(--s-5) var(--s-5)}
+.stage.stage-phone .win{width:100%;max-width:400px;margin:0 auto}
 
 /* text floor inside recreations: controls 12px, dense data 11px */
 .fn.g small,.fg small{font-size:var(--t-12)}
@@ -78,7 +78,7 @@
 .mc-no{font-size:var(--t-12);color:rgba(255,255,255,.82)}
 .mc-s{font-size:var(--t-12);font-weight:500;color:#CFE0FF}.ov-card.sent .mc-s{color:#9FF0C5}
 .stage.mem .field{padding-right:min(240px,34%)}
-@media (max-width:900px){.stage.mem .field{padding-right:0}}
+@media (max-width:900px){.stage.mem .field{padding-right:var(--frame)}}
 
 /* Relay workflow: a step connector */
 .ov>.ov-conn{max-width:230px}
@@ -182,6 +182,8 @@
 .ch-bar .c0,.lm.c0{background:#1D4DFB}.ch-bar .c1,.lm.c1{background:#2E8540}.ch-bar .c2,.lm.c2{background:#0F6E5F}.ch-bar .c3,.lm.c3{background:#C2410C}.ch-bar .c4,.lm.c4{background:#6D28D9}.ch-bar .fr{background:transparent}
 .lm{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;color:#fff;font-size:var(--t-12);font-weight:500;margin-right:8px;vertical-align:middle}
 .ch-t td[data-left]{font-weight:500;transition:background-color .6s}.ch-t td.sync{background:#DDF5E0}
+/* phone-width window: the status column goes, so seats sold and left stay in view without a sideways scroll */
+@container (max-width:420px){.ch-t :is(th,td):nth-child(2){display:none}.inv-t .ch-t :is(th,td,th[scope=row]){padding-left:8px;padding-right:8px}.inv-t .ch-t th[scope=row]{white-space:normal}}
 .sell{min-height:28px;padding:0 10px;border-radius:6px;background:var(--rb-t);color:var(--rb);font-weight:500;font-size:var(--t-12)}.sell:hover{background:#D6E2FF}.sell:disabled{background:#EEF0F4;color:#5E6372;cursor:not-allowed}
 
 /* demand pricing */

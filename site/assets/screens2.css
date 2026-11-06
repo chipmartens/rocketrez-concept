@@ -6,7 +6,7 @@
 @container (min-width:880px){
   .scr2.a-tr>.field,.scr2.a-br>.field{padding-right:calc(var(--ow) + 24px - var(--ox))}
   .scr2.a-tl>.field,.scr2.a-bl>.field{padding-left:calc(var(--ow) + 24px - var(--ox))}
-  .scr2.a-tr .win,.scr2.a-br .win{border-radius:8px 8px 0 0;margin-right:0}
+  .scr2.a-tr .win,.scr2.a-br .win{margin-right:0}
   .scr2 .ov{width:var(--ow);max-width:none}
   .scr2.a-tr .win-bar{padding-right:calc(var(--ox) + 12px)}.scr2.a-tl .win-bar{padding-left:calc(var(--ox) + 12px)}
   .scr2.a-tr .win-b,.scr2.a-br .win-b{margin-right:var(--ox)}.scr2.a-tl .win-b,.scr2.a-bl .win-b{margin-left:var(--ox)}

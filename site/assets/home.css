@@ -117,3 +117,54 @@
 @media (prefers-reduced-motion:reduce){
   .acc.ind .acc-p,.acc.ind .acc-t,.ind-v,.sysmap .gr-l,.sysmap .rr-tot,.sysmap .gr-h .rr-pill,.sm-j{transition:none}
 }
+
+/* ---------- Stack morph: each system's line for Sam lifts off and lands on one guest record (home.js) ----------
+   States on .stack[data-m]: ready (waiting), play, done. No data-m = no script: the five systems stand alone. */
+.stacksec .merge{height:620px}
+.stack .sys{z-index:2;perspective:1000px}
+.stack .sy{transform-origin:50% 100%}
+.stack .sy [data-k]{border-radius:4px;transition:background-color .2s var(--ease),box-shadow .2s var(--ease),opacity .3s var(--ease)}
+.stack .sy [data-k].mo-on,.stack .sy-x [data-k].mo-on span{background:#FFE08A;color:#2A1E00}
+.stack .sy [data-k].mo-on{box-shadow:0 0 0 3px #FFE08A}
+.stack .sy [data-k].mo-gone{opacity:.3}
+.stack[data-m=done] .after{opacity:1;transform:none}
+.stack:is([data-m=play],[data-m=done]) .merge>.sd{opacity:0}
+.stack[data-m=done] .sys{visibility:hidden}
+.stack[data-m=done] .after{display:block;animation:p1up .5s var(--out) both}
+
+.stack .rec{position:absolute;left:50%;top:50%;z-index:3;width:min(400px,100%);transform:translate(-50%,-50%);opacity:0;visibility:hidden;pointer-events:none;transition:none}
+.stack:is([data-m=play],[data-m=done]) .rec{opacity:1;visibility:visible;pointer-events:auto}
+.mo-ls{list-style:none;margin:0;padding:0;display:grid}
+.mo-l{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:var(--s-3);align-items:center;min-height:32px;border-bottom:1px solid var(--rl);font-size:var(--t-14);transition:opacity .25s var(--ease)}
+.mo-l .smt{justify-self:start}
+.mo-l b{font-weight:500}
+.mo-keep{border-bottom:0;color:var(--rm)}.mo-keep small{font-size:var(--t-12)}
+.smt[data-j=keep]{background:#E1F3F0;color:#0B5550}
+.stack[data-m=ready] .mo-l,.stack[data-m=play] .mo-l:not(.in){opacity:0}
+/* the per-cap number in the scoreboard style: amber on night, as in the hero */
+.mo-tot{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);margin:0 calc(var(--s-4) * -1) calc(var(--s-4) * -1);padding:var(--s-3) var(--s-4);background:var(--night);color:rgba(255,255,255,.82);font-size:var(--t-13)}
+.mo-tot b{font-size:var(--t-28);font-weight:500;letter-spacing:-.02em;line-height:1;color:var(--amber)}
+.mo-re{display:flex;align-items:center;min-height:44px;margin:var(--s-3) 0 0 auto;padding:0 var(--s-4);border:1px solid var(--rule);border-radius:999px;background:#fff;color:var(--ink);font-size:var(--t-14);font-weight:500;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
+.mo-re:hover{border-color:var(--ink);box-shadow:0 0 0 4px rgba(17,19,26,.08)}
+.stack:not([data-seen]) .mo-re{visibility:hidden}
+
+/* a line in flight: the record row it becomes, as a pill */
+.mo-chip{position:absolute;z-index:4;display:inline-grid;grid-template-columns:56px auto auto;align-items:center;gap:var(--s-3);padding:var(--s-1) var(--s-3) var(--s-1) var(--s-1);border-radius:999px;background:#fff;color:#161A26;
+  font:500 var(--t-13)/1.3 var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap;pointer-events:none;will-change:transform;
+  box-shadow:0 12px 28px -10px rgba(10,15,36,.4),0 0 0 1px rgba(17,19,26,.08)}
+.mo-chip b{font-weight:500}.mo-chip .smt{justify-self:start}
+
+@media (max-width:900px){
+  /* phone: the systems stack in two columns, trimmed to Sam's lines; the record waits below and the lines drop into it */
+  .stacksec .merge{height:auto;min-height:0;scroll-margin-top:calc(var(--hdr) + var(--s-4))}
+  .stack .sys{gap:var(--s-3)}
+  .stack .sy .x{display:none}
+  .stack .rec{position:relative;left:auto;top:auto;width:100%;transform:none;margin-top:var(--s-5)}
+  .stack[data-m] .rec{opacity:1;visibility:visible;pointer-events:auto}
+  .stack:not([data-m]) .rec{display:none}
+  .stack[data-m=done] .sys{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .stack .sy [data-k],.mo-l{transition:none}
+  .stack[data-m=done] .after{animation:none}
+}

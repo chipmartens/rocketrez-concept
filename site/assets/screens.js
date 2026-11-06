@@ -67,6 +67,7 @@
       }
       return best;
     };
+    field.style.transition = 'none';  // the reduced-motion reset (transition: all .01ms) would otherwise leave the old padding in place while go() measures
     field.style.paddingTop = '';
     let p = go();
     // nothing free: open a band above the window, the least that lets the piece overlap only empty window chrome
@@ -81,6 +82,12 @@
   window.RRplace = placeAll;  // tests and the page lane can re-run it after layout changes
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(placeAll));
   let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(placeAll, 150); });
+  // a demo that changes its window (cart grows, scan result appears) or a carousel that resizes it re-places the piece, so it never lands on new text.
+  // The field's own padding changes don't resize the window, so this can't loop.
+  // hero windows scroll past 560px (styles.css): fade the bottom edge while more rows sit below, so the cut reads as a scroll, not a crop
+  const more = b => b.toggleAttribute('data-more', b.scrollHeight - b.clientHeight - b.scrollTop > 2);
+  $$('.split-hero .hv .stage .win-b').forEach(b => { more(b); b.addEventListener('scroll', () => more(b), { passive: true }); if (window.ResizeObserver) new ResizeObserver(() => more(b)).observe(b); });
+  if (window.ResizeObserver) { const ro = new ResizeObserver(es => new Set(es.map(e => e.target.closest('.stage'))).forEach(place)); stages().forEach(st => { const w = $('.win', st); if (w) ro.observe(w); }); }
 
   /* ---- extra behaviour on screens main.js already drives ---- */
   const S = {

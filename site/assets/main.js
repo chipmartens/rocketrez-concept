@@ -59,7 +59,7 @@
   if (hero) {
     const evs = $$('.ev', hero), lis = $$('.day-list li', hero);
     const prog = $('.prog', hero), guest = $('.guest', hero);
-    const val = $('.percap .val', hero), cmp = $('.percap .cmp', hero);
+    const val = $('.percap .val', hero), cmp = $('.percap .cap-note', hero);
     const segs = $$('.mix .seg', hero);
     const x0 = +prog.getAttribute('x1'), x1 = +hero.dataset.end;
     const dev = $('.gdev', hero), gs = dev ? $$('.gs', dev) : [], dots = dev ? $$('.gd-dots button', dev) : [];
