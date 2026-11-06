@@ -1,0 +1,86 @@
+/* RocketRez vs pages (/compare/). Owned by compare.py; every selector is scoped under .vs-* so it can load on every page. */
+
+/* hero: warm field, the answer block reads as the first paragraph */
+.vs-hero .h1{max-width:20ch}
+.vs-hero .vs-ans{max-width:62ch;color:var(--warm-ink)}
+.vs-hero .btns{margin-top:var(--s-6)}
+
+/* comparison table: ruled, row labels left, RocketRez column tinted */
+.vs-tw{margin-top:var(--s-7);border-top:2px solid var(--ink)}
+.vs-t{width:100%;border-collapse:collapse;font-size:var(--t-16);line-height:1.45;font-variant-numeric:tabular-nums;table-layout:fixed}
+.vs-t th,.vs-t td{text-align:left;vertical-align:top;padding:var(--s-4);border-bottom:1px solid var(--rule);font-weight:400}
+.vs-t thead th{font-weight:500;font-size:var(--t-16);color:var(--ink);padding-top:var(--s-5);padding-bottom:var(--s-5)}
+.vs-t tbody th{font-weight:500;color:var(--ink);width:19%}
+.vs-t td{color:var(--ink-2)}
+.vs-t .vs-us{background:var(--blue-t);color:var(--ink)}
+.vs-t thead .vs-us{color:var(--blue-2)}
+.vs-ns{color:var(--mute);font-style:italic}
+.vs-c2 tbody th{width:24%}
+.vs-c6 th,.vs-c6 td{padding:var(--s-4) var(--s-3)}.vs-c6 tbody th{width:14%}
+
+/* source note directly under the table it supports */
+.vs-src{margin-top:var(--s-5);font-size:var(--t-14);line-height:1.5;color:var(--mute);max-width:68ch}
+.vs-src p{margin:0}
+.vs-src details{margin-top:var(--s-3)}
+.vs-src summary{cursor:pointer;font-weight:500;color:var(--ink);width:max-content;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px}
+.vs-src summary:hover{text-decoration-color:currentColor}
+.vs-src ul{list-style:none;margin:var(--s-3) 0 0;padding:0;display:grid;gap:var(--s-2)}
+.vs-src li{display:flex;flex-wrap:wrap;gap:var(--s-1) var(--s-3);align-items:baseline}
+.vs-src li b{font-weight:500;color:var(--ink);min-width:9em}
+.vs-src a{color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px;overflow-wrap:anywhere}
+.vs-src a:hover{color:var(--ink);text-decoration-color:currentColor}
+
+/* good fit / fits better: two ruled lists on night */
+.vs-fit{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-6) var(--s-9)}
+.vs-fit .h3{color:#fff;max-width:20ch}
+.vs-fit ul{list-style:none;margin:var(--s-6) 0 0;padding:0;border-top:1px solid var(--rule-d)}
+.vs-fit li{display:grid;gap:var(--s-2);padding:var(--s-5) 0;border-bottom:1px solid var(--rule-d)}
+.vs-fit li b{font-weight:500;font-size:var(--t-18);line-height:1.3;color:#fff}
+.vs-fit li span{font-size:var(--t-16);line-height:1.5;color:rgba(255,255,255,.74);max-width:56ch}
+.vs-fit>div:last-child .h3{color:var(--amber)}
+
+/* switching help */
+.vs-sw{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:var(--s-6) var(--s-9);align-items:start}
+.vs-sw .sub+.sub{margin-top:var(--s-4)}
+.vs-links{list-style:none;margin:var(--s-5) 0 0;padding:0;display:grid;gap:var(--s-2)}
+.vs-links .tlk{margin-top:0}
+.vs-steps{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule);background:#fff}
+.vs-steps li{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--s-4);padding:var(--s-5);border-bottom:1px solid var(--rule)}
+.vs-steps b{font-weight:500}
+.vs-steps span{color:var(--ink-2);line-height:1.5}
+
+/* suite by suite (legacy page) */
+.vs-suites{list-style:none;margin:var(--s-7) 0 0;padding:0;border-top:1px solid var(--rule)}
+.vs-suites li{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,8fr);gap:var(--s-4) var(--s-7);padding:var(--s-5) 0;border-bottom:1px solid var(--rule)}
+.vs-suites .ttl{margin:0}
+.vs-suites p{margin:0;color:var(--ink-2);line-height:1.55;max-width:70ch}
+
+/* hub rows */
+.vs-hub{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.vs-hub a{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,8fr) 24px;grid-template-areas:"n h a" "n f a";gap:var(--s-2) var(--s-7);align-items:center;padding:var(--s-6) 0;border-bottom:1px solid var(--rule);transition:background-color .2s var(--ease)}
+.vs-hub a:hover{background:var(--fog)}
+.vs-hub a:hover .vs-hh{color:var(--blue)}
+.vs-hn{grid-area:n;font-size:var(--t-14);color:var(--mute)}
+.vs-hh{grid-area:h;font-size:var(--t-24);line-height:1.3;font-weight:500;letter-spacing:-.015em}
+.vs-hf{grid-area:f;font-size:var(--t-16);color:var(--ink-2);line-height:1.5;max-width:65ch}
+.vs-hub svg{grid-area:a;width:20px;height:20px;color:var(--blue)}
+.vs-rules{margin:var(--s-7) 0 0;border-top:1px solid var(--rule-d)}
+.vs-rules div{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:var(--s-4) var(--s-7);padding:var(--s-5) 0;border-bottom:1px solid var(--rule-d)}
+.vs-rules dt{font-weight:500;font-size:var(--t-18)}
+.vs-rules dd{margin:0;font-size:var(--t-16);color:rgba(255,255,255,.74);line-height:1.5}
+
+@media (max-width:900px){
+  .vs-fit,.vs-sw{grid-template-columns:1fr}
+  .vs-suites li,.vs-rules div{grid-template-columns:1fr;gap:var(--s-2)}
+}
+/* phones and narrow tablets: each row becomes a block, every cell labelled with its vendor */
+@media (max-width:760px){
+  .vs-t,.vs-t tbody,.vs-t tr,.vs-t th,.vs-t td{display:block;width:auto!important}
+  .vs-t thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .vs-t tr{padding:var(--s-4) 0;border-bottom:1px solid var(--rule)}
+  .vs-t tbody th{border:0;padding:0 0 var(--s-2);font-size:var(--t-16)}
+  .vs-t td{border:0;padding:var(--s-2) var(--s-3);display:grid;grid-template-columns:minmax(0,8.5em) minmax(0,1fr);gap:var(--s-3)}
+  .vs-t td::before{content:attr(data-l);font-weight:500;color:var(--ink)}
+  .vs-steps li{grid-template-columns:1fr;gap:var(--s-1)}
+  .vs-hub a{grid-template-columns:minmax(0,1fr) 20px;grid-template-areas:"n a" "h a" "f a";gap:var(--s-1) var(--s-4)}
+}
