@@ -1773,3 +1773,15 @@ tr.chl[hidden]{display:none}
 .gstrip b{font-size:var(--t-20);font-weight:500;line-height:1.3;letter-spacing:-.01em}
 .gstrip span{font-size:var(--t-14);color:var(--mute)}
 .gstrip a:hover b,.gstrip a:focus-visible b{text-decoration:underline;text-underline-offset:3px}
+
+/* ===== Rounded fields (Chip 2026-11-06): every colour field, gradient panel and photo panel behind a product visual takes one radius.
+   Fields that already clip (overflow hidden) clip their photo and grain to it; the others only round their paint, so overlays that sit
+   over an edge still show. Full-bleed grounds (night, g-warm, g-blue bands, the venue hero photo), ruled grids, tables and logo grids
+   stay square. tools/layout_check.js checks every product field for a radius at 1440 and 390. ===== */
+:root{--r-field:20px}
+@media (max-width:480px){:root{--r-field:16px}}
+.stage>.field,.auto-r.field,.hfield,.cmedia,.tile,.acc-p,.rband,.band-r,.cut,.feat-art>.ph{border-radius:var(--r-field)}
+.stage>.field::after,.auto-r.field::after,.hfield::after{border-radius:inherit}
+.case>.cp{border-radius:var(--r-field) 0 0 var(--r-field)}.case>.ct{border-radius:0 var(--r-field) var(--r-field) 0}
+.case.rev>.cp{border-radius:0 var(--r-field) var(--r-field) 0}.case.rev>.ct{border-radius:var(--r-field) 0 0 var(--r-field)}
+@media (max-width:900px){.case>.cp,.case.rev>.cp{border-radius:var(--r-field) var(--r-field) 0 0}.case>.ct,.case.rev>.ct{border-radius:0 0 var(--r-field) var(--r-field)}}

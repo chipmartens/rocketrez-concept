@@ -33,7 +33,7 @@
   .acc.ind{height:auto;flex-direction:row;gap:var(--s-4);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;
     margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);scroll-padding-inline:var(--pad)}
   .acc.ind::-webkit-scrollbar{display:none}
-  .acc.ind .acc-p,.acc.ind .acc-p.on{flex:0 0 min(80%,440px);height:500px;scroll-snap-align:start;border-radius:12px}
+  .acc.ind .acc-p,.acc.ind .acc-p.on{flex:0 0 min(80%,440px);height:500px;scroll-snap-align:start;border-radius:var(--r-field)}
   .acc.ind .acc-p:not(.on) .acc-t,.acc.ind .acc-t{opacity:1;visibility:visible;transition:none}
   .acc.ind .acc-d,.acc.ind .acc-l{opacity:1;transform:none}
   .acc.ind .acc-b,.acc.ind .acc-i,.ind-v{display:none}
@@ -45,37 +45,75 @@
   .acc.ind .acc-t{left:var(--s-4);bottom:var(--s-4);max-width:calc(100% - var(--s-6))}
 }
 
-/* ---------- System map: five parts, one guest record ---------- */
-.sysmap{--sm-sell:#7FA6FF;--sm-serve:#FFC23D;--sm-keep:#6CC3B7;--sm-know:#7FD4A2;--sm-relay:#B4A8FF}
-.sysmap .sm-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s-7);align-items:start}
-.sm-rec{position:sticky;top:calc(var(--hdr) + var(--s-5))}
-.sm-rec .rr{max-width:460px}
-.sysmap .rr-app{font-size:var(--t-14)}
-.sysmap .rr-tag,.sysmap .rr-pill,.sysmap .gr-l .t{font-size:var(--t-12)}
-.sysmap .rr-d{font-size:var(--t-16)}
-.sysmap .gr-l{padding:var(--s-2) var(--s-2);margin:0 calc(var(--s-2) * -1);border-radius:8px;transition:opacity .25s var(--ease),background-color .25s var(--ease)}
-.sysmap .rr-tot{border-radius:8px;transition:background-color .25s var(--ease)}
-.sysmap .gr-h .rr-pill{transition:background-color .25s var(--ease),color .25s var(--ease)}
+/* ---------- The story: five systems become Sam's record (stack), and the record stays on the right while the dark section
+   walks through each part (sysmap). One record element, in .story-rail. States on .story[data-m]: ready, play, done
+   (no data-m = no script). The record's [data-on] names the part in the middle of the screen. ---------- */
+.story{position:relative;--sm-sell:#7FA6FF;--sm-serve:#FFC23D;--sm-keep:#6CC3B7;--sm-know:#7FD4A2;--sm-relay:#B4A8FF}
+.story-rail{position:absolute;inset:0;z-index:3;pointer-events:none}
+.story-rail>.wrap{height:100%;padding-top:var(--sec);padding-bottom:var(--s-6)}  /* bottom: the record stays up while Know, the last part, is mid-screen */
+.story .rec{position:sticky;top:calc(var(--hdr) + var(--s-5));left:auto;transform:none;transition:none;width:min(432px,100%);margin-left:auto;opacity:0;visibility:hidden;pointer-events:none}
+.story:is([data-m=play],[data-m=done]) .rec{opacity:1;visibility:visible;pointer-events:auto}
+/* the record is a light card on any ground: white over the five systems, then over night */
+.story .rec>.rr{margin:0;padding:var(--s-5);border-radius:16px;background:#fff;box-shadow:0 30px 60px -30px rgba(5,7,15,.5)}
+.story .rec .rr-ht{color:var(--ink)}.story .rec .rr-d{color:var(--ink-2)}
+
+/* the five systems */
+.stacksec .merge{height:620px}
+.stack .sys{z-index:2;perspective:1000px}
+.stack .sy{transform-origin:50% 100%}
+.stack .sy [data-k]{border-radius:4px;transition:background-color .2s var(--ease),box-shadow .2s var(--ease),opacity .3s var(--ease)}
+.stack .sy [data-k].mo-on,.stack .sy-x [data-k].mo-on span{background:#FFE08A;color:#2A1E00}
+.stack .sy [data-k].mo-on{box-shadow:0 0 0 3px #FFE08A}
+.stack .sy [data-k].mo-gone{opacity:.3}
+.story:is([data-m=play],[data-m=done]) .merge>.sd{opacity:0}
+.story[data-m=done] .sys{visibility:hidden}
+.story[data-m=done] .after{display:block;opacity:1;transform:none;animation:p1up .5s var(--out) both}
+
+/* the record's rows */
+.mo-ls{list-style:none;margin:0;padding:0;display:grid}
+.mo-l{--jc:var(--sm-sell);display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:var(--s-3);align-items:center;min-height:32px;border-bottom:1px solid var(--rl);font-size:var(--t-14);transition:opacity .25s var(--ease)}
+.mo-l[data-j=relay]{--jc:var(--sm-relay)}.mo-l[data-j=serve]{--jc:var(--sm-serve)}.mo-l[data-j=keep]{--jc:var(--sm-keep)}
+.mo-l .smt{justify-self:start}
+.mo-l b{font-weight:500}
+.mo-keep{border-bottom:0;color:var(--rm)}.mo-keep small{font-size:var(--t-12)}
+.story[data-m=ready] .mo-l,.story[data-m=play] .mo-l:not(.in){opacity:0}
 .smt{font-style:normal;font-size:var(--t-12);font-weight:500;padding:1px var(--s-2);border-radius:999px;white-space:nowrap}
 .smt[data-j=sell]{background:#EAF0FF;color:#0040C8}.smt[data-j=serve]{background:#FFF1D1;color:#7A4B00}
-.smt[data-j=relay]{background:#EEEBFF;color:#4B3BC8}
-.sysmap:not([data-on=""])[data-on] .gr-l:not(.lit){opacity:.45}
-.sysmap .gr-l.lit{background:#F3F6FC}
-.sysmap .gr-h .rr-pill.lit{background:#0F5E63;color:#fff}
-.sysmap .rr-tot.lit{background:#E7F4EC}
-.sm-out{margin:var(--s-4) 0 0;font-size:var(--t-16);line-height:1.45;color:rgba(255,255,255,.8);max-width:46ch;min-height:4.4em}
+.smt[data-j=relay]{background:#EEEBFF;color:#4B3BC8}.smt[data-j=keep]{background:#E1F3F0;color:#0B5550}
+button.smt{min-height:24px;padding:0 var(--s-2);border:0;font-family:inherit;line-height:1;cursor:pointer;transition:background-color .25s var(--ease),color .25s var(--ease),box-shadow .2s var(--ease)}
+button.smt:hover{box-shadow:0 0 0 2px var(--jc)}
+/* the per-cap number in the scoreboard style: amber on night, as in the hero */
+.mo-tot{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);margin:0 calc(var(--s-4) * -1) calc(var(--s-4) * -1);padding:var(--s-3) var(--s-4);background:var(--night);color:rgba(255,255,255,.82);font-size:var(--t-13);transition:box-shadow .25s var(--ease)}
+.mo-tot b{font-size:var(--t-28);font-weight:500;letter-spacing:-.02em;line-height:1;color:var(--amber)}
+/* a part in the middle of the screen: its rows stay, the rest dim; its tags take its dot colour; Know rings the total */
+.mo-l>*{transition:opacity .25s var(--ease)}
+.rec[data-on]:not([data-on=""]) .mo-l:not(.lit)>*{opacity:.35}
+.mo-l.lit .smt{background:var(--jc);color:#0A0F24}
+.mo-tot.lit{box-shadow:inset 0 0 0 2px var(--sm-know)}
+.mo-re{display:flex;align-items:center;min-height:44px;margin:var(--s-3) 0 0 auto;padding:0 var(--s-4);border:1px solid var(--rule);border-radius:999px;background:#fff;color:var(--ink);font-size:var(--t-14);font-weight:500;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
+.mo-re:hover{border-color:var(--ink);box-shadow:0 0 0 4px rgba(17,19,26,.08)}
+.story:not([data-seen]) .mo-re{visibility:hidden}
 
-.sm-js{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-4)}
+/* a line in flight: the record row it becomes, as a pill */
+.mo-chip{position:absolute;z-index:4;display:inline-grid;grid-template-columns:56px auto auto;align-items:center;gap:var(--s-3);padding:var(--s-1) var(--s-3) var(--s-1) var(--s-1);border-radius:999px;background:#fff;color:#161A26;
+  font:500 var(--t-13)/1.3 var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap;pointer-events:none;will-change:transform;
+  box-shadow:0 12px 28px -10px rgba(10,15,36,.4),0 0 0 1px rgba(17,19,26,.08)}
+.mo-chip b{font-weight:500}.mo-chip .smt{justify-self:start}
+
+/* ---------- The dark half: one block per part, in the left column; the sticky record holds the right ---------- */
+.sysmap .wrap>*{max-width:calc(100% - 432px - var(--s-8))}
+.story .sm-js{padding-bottom:var(--s-7)}  /* room for the sticky record beside Know, the last part */
+.sm-js{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-7)}
 .sm-j{--jc:var(--sm-sell);display:grid;grid-template-columns:210px minmax(0,1fr);gap:var(--s-5);padding:var(--card);border:1px solid var(--rule-d);border-radius:16px;background:rgba(255,255,255,.03);transition:border-color .25s var(--ease),background-color .25s var(--ease)}
 .sm-j[data-j=serve]{--jc:var(--sm-serve)}.sm-j[data-j=keep]{--jc:var(--sm-keep)}.sm-j[data-j=know]{--jc:var(--sm-know)}.sm-j[data-j=relay]{--jc:var(--sm-relay)}
 .sm-j.on{border-color:var(--jc);background:rgba(255,255,255,.07)}
 .sm-tx{display:grid;align-content:start;gap:var(--s-2);min-width:0}
-.sm-n{margin:0}
-.sm-b{display:inline-flex;align-items:baseline;gap:var(--s-3);min-height:44px;text-align:left;font-size:var(--t-24);line-height:1.15;letter-spacing:-.02em;font-weight:500;color:#fff;border-radius:6px}
+.sm-n{display:flex;align-items:baseline;gap:var(--s-3);margin:0;font-size:var(--t-24);line-height:1.15;letter-spacing:-.02em;font-weight:500;color:#fff;border-radius:6px;scroll-margin-top:calc(var(--hdr) + var(--s-6))}
 .smd{flex:none;width:12px;height:12px;border-radius:50%;background:var(--jc)}
-.sm-b[aria-pressed=true] .smd{box-shadow:0 0 0 4px rgba(255,255,255,.18)}
+.sm-j.on .smd{box-shadow:0 0 0 4px rgba(255,255,255,.18)}
 .sm-a{margin:0;font-size:var(--t-16);font-weight:500;color:#fff}
 .sm-d{margin:0;font-size:var(--t-16);line-height:1.45;color:rgba(255,255,255,.74)}
+.sm-rows{display:none}
 .sm-f{list-style:none;margin:var(--s-2) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s-2)}
 .sm-f a{display:inline-flex;align-items:center;min-height:40px;padding:0 var(--s-4);border:1px solid var(--rule-d);border-radius:999px;font-size:var(--t-16);color:#fff;transition:border-color .2s var(--ease),background-color .2s var(--ease)}
 .sm-f a:hover{border-color:#fff;background:rgba(255,255,255,.08)}
@@ -98,73 +136,29 @@
 .smf-bar i{display:block;height:8px;width:var(--w);border-radius:4px;background:#13573A}
 .smf-bar b{font-weight:500}
 
-@media (max-width:1024px){
-  .sysmap .sm-grid{grid-template-columns:1fr;gap:var(--s-6)}
-  .sm-rec{position:static}
-  .sm-js{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .sm-j{grid-template-columns:1fr}
-  .sm-j:last-child{grid-column:1/-1;grid-template-columns:240px minmax(0,1fr)}
-}
-@media (max-width:640px){
-  /* phone: the parts swipe sideways under the record, and the one in view lights its lines (home.js) */
-  .sm-js{display:flex;gap:var(--s-4);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;
-    margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);scroll-padding-inline:var(--pad)}
-  .sm-js::-webkit-scrollbar{display:none}
-  .sm-j,.sm-j:last-child{flex:0 0 86%;grid-template-columns:1fr;scroll-snap-align:start;align-content:start}
-  .sm-b{font-size:var(--t-20)}
-  .sm-out{min-height:0}
-}
-@media (prefers-reduced-motion:reduce){
-  .acc.ind .acc-p,.acc.ind .acc-t,.ind-v,.sysmap .gr-l,.sysmap .rr-tot,.sysmap .gr-h .rr-pill,.sm-j{transition:none}
-}
-
-/* ---------- Stack morph: each system's line for Sam lifts off and lands on one guest record (home.js) ----------
-   States on .stack[data-m]: ready (waiting), play, done. No data-m = no script: the five systems stand alone. */
-.stacksec .merge{height:620px}
-.stack .sys{z-index:2;perspective:1000px}
-.stack .sy{transform-origin:50% 100%}
-.stack .sy [data-k]{border-radius:4px;transition:background-color .2s var(--ease),box-shadow .2s var(--ease),opacity .3s var(--ease)}
-.stack .sy [data-k].mo-on,.stack .sy-x [data-k].mo-on span{background:#FFE08A;color:#2A1E00}
-.stack .sy [data-k].mo-on{box-shadow:0 0 0 3px #FFE08A}
-.stack .sy [data-k].mo-gone{opacity:.3}
-.stack[data-m=done] .after{opacity:1;transform:none}
-.stack:is([data-m=play],[data-m=done]) .merge>.sd{opacity:0}
-.stack[data-m=done] .sys{visibility:hidden}
-.stack[data-m=done] .after{display:block;animation:p1up .5s var(--out) both}
-
-.stack .rec{position:absolute;left:50%;top:50%;z-index:3;width:min(400px,100%);transform:translate(-50%,-50%);opacity:0;visibility:hidden;pointer-events:none;transition:none}
-.stack:is([data-m=play],[data-m=done]) .rec{opacity:1;visibility:visible;pointer-events:auto}
-.mo-ls{list-style:none;margin:0;padding:0;display:grid}
-.mo-l{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:var(--s-3);align-items:center;min-height:32px;border-bottom:1px solid var(--rl);font-size:var(--t-14);transition:opacity .25s var(--ease)}
-.mo-l .smt{justify-self:start}
-.mo-l b{font-weight:500}
-.mo-keep{border-bottom:0;color:var(--rm)}.mo-keep small{font-size:var(--t-12)}
-.smt[data-j=keep]{background:#E1F3F0;color:#0B5550}
-.stack[data-m=ready] .mo-l,.stack[data-m=play] .mo-l:not(.in){opacity:0}
-/* the per-cap number in the scoreboard style: amber on night, as in the hero */
-.mo-tot{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);margin:0 calc(var(--s-4) * -1) calc(var(--s-4) * -1);padding:var(--s-3) var(--s-4);background:var(--night);color:rgba(255,255,255,.82);font-size:var(--t-13)}
-.mo-tot b{font-size:var(--t-28);font-weight:500;letter-spacing:-.02em;line-height:1;color:var(--amber)}
-.mo-re{display:flex;align-items:center;min-height:44px;margin:var(--s-3) 0 0 auto;padding:0 var(--s-4);border:1px solid var(--rule);border-radius:999px;background:#fff;color:var(--ink);font-size:var(--t-14);font-weight:500;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
-.mo-re:hover{border-color:var(--ink);box-shadow:0 0 0 4px rgba(17,19,26,.08)}
-.stack:not([data-seen]) .mo-re{visibility:hidden}
-
-/* a line in flight: the record row it becomes, as a pill */
-.mo-chip{position:absolute;z-index:4;display:inline-grid;grid-template-columns:56px auto auto;align-items:center;gap:var(--s-3);padding:var(--s-1) var(--s-3) var(--s-1) var(--s-1);border-radius:999px;background:#fff;color:#161A26;
-  font:500 var(--t-13)/1.3 var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap;pointer-events:none;will-change:transform;
-  box-shadow:0 12px 28px -10px rgba(10,15,36,.4),0 0 0 1px rgba(17,19,26,.08)}
-.mo-chip b{font-weight:500}.mo-chip .smt{justify-self:start}
-
+@media (max-width:1180px){.sm-j{grid-template-columns:1fr}.sm-j .smf{max-width:320px}}
 @media (max-width:900px){
-  /* phone: the systems stack in two columns, trimmed to Sam's lines; the record waits below and the lines drop into it */
+  /* phone and small tablet: no sticky; the systems stack in two columns, trimmed to Sam's lines, the record follows in flow and the lines
+     drop into it; each part then shows its own lines inline */
+  .story-rail{position:static}
+  .story-rail>.wrap{height:auto;padding-block:0}
+  .story .rec{position:relative;top:auto;width:100%;margin:calc(var(--sec) * -1 + var(--s-5)) 0 var(--sec);opacity:1;visibility:visible;pointer-events:auto}
+  .story .rec>.rr{padding:var(--s-4)}
+  .story:not([data-m]) .rec{display:none}
   .stacksec .merge{height:auto;min-height:0;scroll-margin-top:calc(var(--hdr) + var(--s-4))}
   .stack .sys{gap:var(--s-3)}
   .stack .sy .x{display:none}
-  .stack .rec{position:relative;left:auto;top:auto;width:100%;transform:none;margin-top:var(--s-5)}
-  .stack[data-m] .rec{opacity:1;visibility:visible;pointer-events:auto}
-  .stack:not([data-m]) .rec{display:none}
-  .stack[data-m=done] .sys{display:none}
+  .story[data-m=done] .sys{display:none}
+  .sysmap .wrap>*{max-width:none}
+  .story .sm-js{padding-bottom:0}
+  .sm-j{padding:var(--s-5)}
+  .sm-n{font-size:var(--t-20)}
+  .sm-rows{display:grid;list-style:none;margin:var(--s-2) 0 0;padding:0;border-top:1px solid var(--rule-d)}
+  .sm-rows li{display:flex;justify-content:space-between;gap:var(--s-3);padding:var(--s-2) 0;border-bottom:1px solid var(--rule-d);font-size:var(--t-16);color:#fff}
+  .sm-rows b{font-weight:500;font-variant-numeric:tabular-nums}
+  .sm-j[data-j=know] .sm-rows li:last-child b{color:var(--amber)}
 }
 @media (prefers-reduced-motion:reduce){
-  .stack .sy [data-k],.mo-l{transition:none}
-  .stack[data-m=done] .after{animation:none}
+  .acc.ind .acc-p,.acc.ind .acc-t,.ind-v,.sm-j,.stack .sy [data-k],.mo-l,.mo-l>*,.mo-tot,button.smt{transition:none}
+  .story[data-m=done] .after{animation:none}
 }
